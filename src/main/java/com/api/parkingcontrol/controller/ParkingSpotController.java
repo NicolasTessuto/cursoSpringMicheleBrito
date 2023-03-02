@@ -28,7 +28,7 @@ public class ParkingSpotController {
     public ResponseEntity<Object> savePArkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
         var parkingSpotModel = new ParkingSpotModel(); //Instracia uma variável do tipo model
         BeanUtils.copyProperties(parkingSpotDto, parkingSpotModel); //Converte meu DTO em model
-        parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTF")));
+        parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
         return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel)); //Retorna ao Http um status created e salva ao banco
 
     }
