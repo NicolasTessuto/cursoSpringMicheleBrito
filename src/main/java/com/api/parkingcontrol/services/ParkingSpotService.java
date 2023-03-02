@@ -19,22 +19,17 @@ public class ParkingSpotService {
         return parkingSpotRepository.save(parkingSpotModel);
     }
 
-    public boolean verifyDuplicate(ParkingSpotModel parkingSpotModel){
-        ParkingSpotModel parkingSpotModelBanco = parkingSpotRepository.getReferenceById(parkingSpotModel.getId());
-        if (parkingSpotModelBanco == null){
-            return false;
-        }
-        else{
-            return true;
-        }
+    public Boolean existsByLicensePlateCar(String licensePlateCar){
+        return parkingSpotRepository.existsByLicensePlateCar(licensePlateCar);
     }
 
+    public Boolean existsByParkingNumber(String parkingNumber){
+        return parkingSpotRepository.existsByParkingNumber(parkingNumber);
+    }
 
-
-
-
-
-
+    public Boolean existsByApartmentBlock(String parkingApartment, String parkingBlock){
+        return parkingSpotRepository.existsByApartmentBlock(parkingApartment, parkingBlock);
+    }
 
 
 }

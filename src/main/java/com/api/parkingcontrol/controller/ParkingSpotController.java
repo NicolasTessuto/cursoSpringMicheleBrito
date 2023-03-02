@@ -25,16 +25,20 @@ public class ParkingSpotController {
     }
 
     @PostMapping("/addVaga")
-    public ResponseEntity<Object> savePArkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
+    public ResponseEntity<Object> saveParkingSpot(@RequestBody @Valid ParkingSpotDto parkingSpotDto){
+        if(parkingSpotService.existsByLicensePlateCar(parkingSpotDto.getLicensePlateCar())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: License plate car already in use!");
+        }
+        if(parkingSpotService.existsByParkingNumber(parkingSpotDto.getParkingSpotNumber())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Parking number already in use!");
+        }
+        if(parkingSpotService.existsByApartmentBlock(parkingSpotDto.getApartment(), parkingSpotDto.getBlock())){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Conflict: Parking Spot already in use by this apartment and block");
+        }
         var parkingSpotModel = new ParkingSpotModel(); //Instracia uma variável do tipo model
         BeanUtils.copyProperties(parkingSpotDto, parkingSpotModel); //Converte meu DTO em model
         parkingSpotModel.setRegistrationDate(LocalDateTime.now(ZoneId.of("UTC")));
-        if (parkingSpotService.verifyDuplicate(parkingSpotModel) == true){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Já consta no banco");
-        }
-        else{
-            return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel)); //Retorna ao Http um status created e salva ao banco
-        }
+        return ResponseEntity.status(HttpStatus.CREATED).body(parkingSpotService.save(parkingSpotModel)); //Retorna ao Http um status created e salva ao banco
     }
 
 
