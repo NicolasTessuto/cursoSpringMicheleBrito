@@ -18,4 +18,23 @@ public class ParkingSpotService {
     public ParkingSpotModel save(ParkingSpotModel parkingSpotModel) {
         return parkingSpotRepository.save(parkingSpotModel);
     }
+
+    public boolean verifyDuplicate(ParkingSpotModel parkingSpotModel){
+        ParkingSpotModel parkingSpotModelBanco = parkingSpotRepository.getReferenceById(parkingSpotModel.getId());
+        if (parkingSpotModelBanco == null){
+            return false;
+        }
+        else{
+            return true;
+        }
+    }
+
+
+
+
+
+
+
+
+
 }
