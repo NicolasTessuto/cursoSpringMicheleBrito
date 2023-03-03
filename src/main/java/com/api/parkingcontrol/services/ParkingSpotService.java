@@ -5,6 +5,10 @@ import com.api.parkingcontrol.repositories.ParkingSpotRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
 @Service //Camada intermediária entre o controller e o repository e onde ficam as regras de negócio
 public class ParkingSpotService {
 
@@ -23,13 +27,27 @@ public class ParkingSpotService {
         return parkingSpotRepository.existsByLicensePlateCar(licensePlateCar);
     }
 
-    public Boolean existsByParkingNumber(String parkingNumber){
-        return parkingSpotRepository.existsByParkingNumber(parkingNumber);
+    public Boolean existsByParkingNumber(String parkingSpotNumber){
+        return parkingSpotRepository.existsByParkingSpotNumber(parkingSpotNumber);
     }
 
-    public Boolean existsByApartmentBlock(String parkingApartment, String parkingBlock){
-        return parkingSpotRepository.existsByApartmentBlock(parkingApartment, parkingBlock);
+    public Boolean existsByApartmentAndBlock(String parkingApartment, String parkingBlock){
+        return parkingSpotRepository.existsByApartmentAndBlock(parkingApartment, parkingBlock);
     }
+
+    public List<ParkingSpotModel> findAll(){
+        return parkingSpotRepository.findAll();
+    }
+
+    public Optional<ParkingSpotModel> findById(UUID id) {
+        return parkingSpotRepository.findById(id);
+    }
+
+
+
+
+
+
 
 
 }
